@@ -52,14 +52,17 @@
     </style>
 </head>
 <script src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="/vendor/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
     $(function() {
         var socket = io();
         $('form').submit(function() {
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
+            socket.emit('chat message', $('#input').val());
+            $('#input').val('');
             return false;
+        });
+        socket.on('Ziko Shokai', function(msg){
+            $('#messages').append($('<li>').text(msg));
         });
     });
 </script>
@@ -67,7 +70,7 @@
 <body>
     <ul id="messages"></ul>
     <form action="">
-        <input id="m" autocomplete="off" /><button>Send</button>
+        <input id="input" autocomplete="off" /><button>Send</button>
     </form>
 </body>
 

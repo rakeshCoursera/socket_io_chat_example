@@ -1,7 +1,6 @@
 const Hapi = require('hapi');
 const Inert = require('inert');
-const Jquery = require('jquery');
-// const IO = require('socket.io');
+const IO = require('socket.io');
 
 const server = new Hapi.Server();
 server.connection({port: 4000});
@@ -17,16 +16,6 @@ server.register([Inert], (err) => {
     server.route([
         {
             method: 'GET',
-            path: '/vendor/{path*}',
-            handler: {
-                directory: {
-                    path: 'bower_components',
-                    listing: false,
-                    index: false
-                }
-            }
-        }, {
-            method: 'GET',
             path: '/',
             handler: function(request, reply) {
                 reply.file('./index.html');
@@ -36,9 +25,10 @@ server.register([Inert], (err) => {
 });
 
 io.on('connection', function(socket) {
-    // console.log('A user connected');
+    socket.broadcast.emit('hi');
     socket.on('chat message', function(msg) {
-        io.emit('chat message: ' + msg);
+        console.log('message: '+ msg);
+        io.emit('Ziko Shokai', msg);
     });
     /* socket.on('disconnect', function() {
         console.log('user disconnected');
